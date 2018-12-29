@@ -1,2 +1,3 @@
 .DS_Store
+.idea/
 src/Installs/resources/views/welcome.blade.php
