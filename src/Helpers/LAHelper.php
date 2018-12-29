@@ -476,18 +476,19 @@ class LAHelper
         $str .= '</li>';
         return $str;
     }
-    
+
     /**
-     * Get laravel version. very important in installation and handling Laravel 5.3 changes.
+     * Get laravel version.
      *
      * LAHelper::laravel_ver()
      *
      * @return float|string laravel version
      */
+    //TODO-WL need remove. old method
     public static function laravel_ver()
     {
         $var = \App::VERSION();
-        
+
         if(starts_with($var, "5.2")) {
             return 5.2;
         } else if(starts_with($var, "5.3")) {
@@ -499,7 +500,21 @@ class LAHelper
             return floatval($var);
         }
     }
-    
+
+    /**
+     * Compare Laravel version
+     *
+     * LAHelper::laravel_check_version()
+     *
+     * @param string|int $version
+     * @param string $operator
+     * @return boolean
+     */
+    public static function laravel_check_version($version, $operator = '=')
+    {
+        return version_compare($version, \App::VERSION(), $operator);
+    }
+
     /**
      * Get real Module name by replacing underscores within name
      *
