@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Validator;
-use App\Role;
 use Eloquent;
+use App\User;
+use App\Role;
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -26,7 +27,7 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after login / registration.
+     * Where to redirect users after registration.
      *
      * @var string
      */
@@ -44,20 +45,14 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $roleCount = Role::count();
-		if($roleCount != 0) {
-			$userCount = User::count();
-			if($userCount == 0) {
-				return view('auth.register');
-			} else {
-				return redirect('login');
-			}
-		} else {
-			return view('errors.error', [
-				'title' => 'Migration not completed',
-				'message' => 'Please run command <code>php artisan db:seed</code> to generate required table data.',
-			]);
-		}
+        if (!Role::count()) {
+            return view('errors.error', [
+                'title' => 'Migration not completed',
+                'message' => 'Please run command <code>php artisan db:seed</code> to generate required table data.',
+            ]);
+        }
+
+		return User::count() ? view('auth.register') : redirect('login');
     }
 
     /**
@@ -69,9 +64,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 
@@ -79,39 +74,42 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return \App\User
      */
     protected function create(array $data)
     {
         // TODO: This is Not Standard. Need to find alternative
-        Eloquent::unguard();
-        
-        $employee = Employee::create([
-            'name' => $data['name'],
-            'designation' => "Super Admin",
-            'mobile' => "8888888888",
-            'mobile2' => "",
-            'email' => $data['email'],
-            'gender' => 'Male',
-            'dept' => "1",
-            'city' => "Pune",
-            'address' => "Karve nagar, Pune 411030",
-            'about' => "About user / biography",
-            'date_birth' => date("Y-m-d"),
-            'date_hire' => date("Y-m-d"),
-            'date_left' => date("Y-m-d"),
-            'salary_cur' => 0,
-        ]);
+        // TODO-WL need remove this trash. Employees? WTF!?
+//        Eloquent::unguard();
+//
+//        $employee = Employee::create([
+//            'name' => $data['name'],
+//            'designation' => "Super Admin",
+//            'mobile' => "8888888888",
+//            'mobile2' => "",
+//            'email' => $data['email'],
+//            'gender' => 'Male',
+//            'dept' => "1",
+//            'city' => "Pune",
+//            'address' => "Karve nagar, Pune 411030",
+//            'about' => "About user / biography",
+//            'date_birth' => date("Y-m-d"),
+//            'date_hire' => date("Y-m-d"),
+//            'date_left' => date("Y-m-d"),
+//            'salary_cur' => 0,
+//        ]);
         
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'context_id' => $employee->id,
-            'type' => "Employee",
+            'password' => Hash::make($data['password']),
+//            'context_id' => $employee->id,
+//            'type' => "Employee",
         ]);
-        $role = Role::where('name', 'SUPER_ADMIN')->first();
-        $user->attachRole($role);
+
+//        $role = Role::where('name', 'SUPER_ADMIN')->first(); // TODO-WL WTF?
+
+//        $user->attachRole($role);
     
         return $user;
     }
