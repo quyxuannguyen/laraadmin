@@ -32,16 +32,6 @@ class CreateUsersTable extends Migration
                 "required" => true,
                 "listing_col" => true
             ], [
-                "colname" => "context_id",
-                "label" => "Context",
-                "field_type" => "Integer",
-                "unique" => false,
-                "defaultvalue" => "0",
-                "minlength" => 0,
-                "maxlength" => 0,
-                "required" => false,
-                "listing_col" => false
-            ], [
                 "colname" => "email",
                 "label" => "Email",
                 "field_type" => "Email",
@@ -61,17 +51,6 @@ class CreateUsersTable extends Migration
                 "maxlength" => 250,
                 "required" => true,
                 "listing_col" => false
-            ], [
-                "colname" => "type",
-                "label" => "User Type",
-                "field_type" => "Dropdown",
-                "unique" => false,
-                "defaultvalue" => "Employee",
-                "minlength" => 0,
-                "maxlength" => 0,
-                "required" => false,
-                "listing_col" => true,
-                "popup_vals" => ["Employee","Client"],
             ]
         ]);
         
