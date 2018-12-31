@@ -23,7 +23,7 @@ use Dwij\Laraadmin\Helpers\LAHelper;
  * This is LaraAdmin Service Provider which looks after managing aliases, other required providers, blade directives
  * and Commands.
  */
-class LAProvider extends ServiceProvider
+class LaServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -32,42 +32,30 @@ class LAProvider extends ServiceProvider
      */
     public function boot()
     {
-        // @mkdir(base_path('resources/laraadmin'));
-        // @mkdir(base_path('database/migrations/laraadmin'));
-        /*
         $this->publishes([
-            __DIR__.'/Templates' => base_path('resources/laraadmin'),
-            __DIR__.'/config.php' => base_path('config/laraadmin.php'),
-            __DIR__.'/Migrations' => base_path('database/migrations/laraadmin')
+            __DIR__.'/Installs/assets' => public_path('vendor/la/assets'),
         ]);
-        */
-        //echo "Laraadmin Migrations started...";
-        // Artisan::call('migrate', ['--path' => "vendor/dwij/laraadmin/src/Migrations/"]);
-        //echo "Migrations completed !!!.";
-        // Execute by php artisan vendor:publish --provider="Dwij\Laraadmin\LAProvider"
-        
+
         /*
         |--------------------------------------------------------------------------
         | Blade Directives for Entrust not working in Laravel 5.3
         |--------------------------------------------------------------------------
         */
-        if(LAHelper::laravel_ver() == 5.3 || LAHelper::laravel_ver() == 5.4) {
-            
-            // Call to Entrust::hasRole
-            Blade::directive('role', function ($expression) {
-                return "<?php if (\\Entrust::hasRole({$expression})) : ?>";
-            });
-            
-            // Call to Entrust::can
-            Blade::directive('permission', function ($expression) {
-                return "<?php if (\\Entrust::can({$expression})) : ?>";
-            });
-            
-            // Call to Entrust::ability
-            Blade::directive('ability', function ($expression) {
-                return "<?php if (\\Entrust::ability({$expression})) : ?>";
-            });
-        }
+        // TODO-WL need check working
+        // Call to Entrust::hasRole
+        Blade::directive('role', function ($expression) {
+            return "<?php if (\\Entrust::hasRole({$expression})) : ?>";
+        });
+
+        // Call to Entrust::can
+        Blade::directive('permission', function ($expression) {
+            return "<?php if (\\Entrust::can({$expression})) : ?>";
+        });
+
+        // Call to Entrust::ability
+        Blade::directive('ability', function ($expression) {
+            return "<?php if (\\Entrust::ability({$expression})) : ?>";
+        });
     }
     
     /**
@@ -121,7 +109,7 @@ class LAProvider extends ServiceProvider
         $loader->alias('CodeGenerator', \Dwij\Laraadmin\CodeGenerator::class);
         
         // For LaraAdmin Form Helper
-        $loader->alias('LAFormMaker', \Dwij\Laraadmin\LAFormMaker::class);
+        $loader->alias('LaFormMaker', \Dwij\Laraadmin\LaFormMaker::class);
         
         // For LaraAdmin Helper
         $loader->alias('LAHelper', \Dwij\Laraadmin\Helpers\LAHelper::class);
@@ -164,7 +152,7 @@ class LAProvider extends ServiceProvider
             if(LAHelper::laravel_ver() == 5.3 || LAHelper::laravel_ver() == 5.4) {
                 $expression = "(" . $expression . ")";
             }
-            return "<?php echo LAFormMaker::input$expression; ?>";
+            return "<?php echo LaFormMaker::input$expression; ?>";
         });
         
         // LAForm Form Maker
@@ -172,7 +160,7 @@ class LAProvider extends ServiceProvider
             if(LAHelper::laravel_ver() == 5.3 || LAHelper::laravel_ver() == 5.4) {
                 $expression = "(" . $expression . ")";
             }
-            return "<?php echo LAFormMaker::form$expression; ?>";
+            return "<?php echo LaFormMaker::form$expression; ?>";
         });
         
         // LAForm Maker - Display Values
@@ -180,7 +168,7 @@ class LAProvider extends ServiceProvider
             if(LAHelper::laravel_ver() == 5.3 || LAHelper::laravel_ver() == 5.4) {
                 $expression = "(" . $expression . ")";
             }
-            return "<?php echo LAFormMaker::display$expression; ?>";
+            return "<?php echo LaFormMaker::display$expression; ?>";
         });
         
         // LAForm Maker - Check Whether User has Module Access
@@ -188,7 +176,7 @@ class LAProvider extends ServiceProvider
             if(LAHelper::laravel_ver() == 5.3 || LAHelper::laravel_ver() == 5.4) {
                 $expression = "(" . $expression . ")";
             }
-            return "<?php if(LAFormMaker::la_access$expression) { ?>";
+            return "<?php if(LaFormMaker::la_access$expression) { ?>";
         });
         Blade::directive('endla_access', function ($expression) {
             return "<?php } ?>";
@@ -199,7 +187,7 @@ class LAProvider extends ServiceProvider
             if(LAHelper::laravel_ver() == 5.3 || LAHelper::laravel_ver() == 5.4) {
                 $expression = "(" . $expression . ")";
             }
-            return "<?php if(LAFormMaker::la_field_access$expression) { ?>";
+            return "<?php if(LaFormMaker::la_field_access$expression) { ?>";
         });
         Blade::directive('endla_field_access', function ($expression) {
             return "<?php } ?>";

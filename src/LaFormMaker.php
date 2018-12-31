@@ -15,14 +15,14 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFieldTypes;
 
 /**
- * Class LAFormMaker
+ * Class LaFormMaker
  * @package Dwij\Laraadmin
  *
  * This class is blade directive implementation for Form Elements in Module as well as other utilities
  * for Access Control. It also has method process_values which processes fields data from its context.
  *
  */
-class LAFormMaker
+class LaFormMaker
 {
     /**
      * Print input field enclosed within form.
@@ -266,7 +266,7 @@ class LAFormMaker
                     
                     $popup_vals_str = $popup_vals;
                     if($popup_vals != "") {
-                        $popup_vals = LAFormMaker::process_values($popup_vals);
+                        $popup_vals = LaFormMaker::process_values($popup_vals);
                     } else {
                         $popup_vals = array();
                     }
@@ -482,7 +482,7 @@ class LAFormMaker
                     }
                     
                     if($popup_vals != "") {
-                        $popup_vals = LAFormMaker::process_values($popup_vals);
+                        $popup_vals = LaFormMaker::process_values($popup_vals);
                     } else {
                         $popup_vals = array();
                     }
@@ -522,7 +522,7 @@ class LAFormMaker
                     }
                     
                     if(starts_with($popup_vals, "@")) {
-                        $popup_vals = LAFormMaker::process_values($popup_vals);
+                        $popup_vals = LaFormMaker::process_values($popup_vals);
                         $out .= '<div class="radio">';
                         foreach($popup_vals as $key => $value) {
                             $sel = false;
@@ -593,7 +593,7 @@ class LAFormMaker
                             $default_val = array();
                         }
                     }
-                    $default_val = LAFormMaker::process_values($default_val);
+                    $default_val = LaFormMaker::process_values($default_val);
                     $out .= Form::select($field_name . "[]", $default_val, $default_val, $params);
                     break;
                 case 'Textarea':
@@ -651,7 +651,7 @@ class LAFormMaker
      * Processes the populated values for Multiselect / Taginput / Dropdown
      * get data from module / table whichever is found if starts with '@'
      **/
-    // $values = LAFormMaker::process_values($data);
+    // $values = LaFormMaker::process_values($data);
     public static function process_values($json)
     {
         $out = array();
@@ -796,7 +796,7 @@ class LAFormMaker
                     
                     break;
                 case 'Dropdown':
-                    $values = LAFormMaker::process_values($fieldObj['popup_vals']);
+                    $values = LaFormMaker::process_values($fieldObj['popup_vals']);
                     if(starts_with($fieldObj['popup_vals'], "@")) {
                         if($value != 0) {
                             $moduleVal = Module::getByTable(str_replace("@", "", $fieldObj['popup_vals']));
@@ -876,7 +876,7 @@ class LAFormMaker
                     break;
                 case 'Multiselect':
                     $valueOut = "";
-                    $values = LAFormMaker::process_values($fieldObj['popup_vals']);
+                    $values = LaFormMaker::process_values($fieldObj['popup_vals']);
                     if(count($values)) {
                         if(starts_with($fieldObj['popup_vals'], "@")) {
                             $moduleVal = Module::getByTable(str_replace("@", "", $fieldObj['popup_vals']));
@@ -915,7 +915,7 @@ class LAFormMaker
                     break;
                 case 'Taginput':
                     $valueOut = "";
-                    $values = LAFormMaker::process_values($fieldObj['popup_vals']);
+                    $values = LaFormMaker::process_values($fieldObj['popup_vals']);
                     if(count($values)) {
                         if(starts_with($fieldObj['popup_vals'], "@")) {
                             $moduleVal = Module::getByTable(str_replace("@", "", $fieldObj['popup_vals']));
@@ -975,7 +975,7 @@ class LAFormMaker
         $out = "";
         foreach($fields as $field) {
             // Use input method of this class to generate all Module fields
-            $out .= LAFormMaker::input($module, $field);
+            $out .= LaFormMaker::input($module, $field);
         }
         return $out;
     }
