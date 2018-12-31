@@ -22,8 +22,8 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use Dwij\Laraadmin\Helpers\LAHelper;
 use Zizaco\Entrust\EntrustFacade as Entrust;
 
-use App\Permission;
-use App\Role;
+use App\LaPermission;
+use App\LaRole;
 
 class PermissionsController extends Controller
 {
@@ -96,12 +96,12 @@ class PermissionsController extends Controller
 	{
 		if(Module::hasAccess("Permissions", "view")) {
 			
-			$permission = Permission::find($id);
+			$permission = LaPermission::find($id);
 			if(isset($permission->id)) {
 				$module = Module::get('Permissions');
 				$module->row = $permission;
 				
-				$roles = Role::all();
+				$roles = LaRole::all();
 
 				return view('la.permissions.show', [
 					'module' => $module,
@@ -130,7 +130,7 @@ class PermissionsController extends Controller
 	public function edit($id)
 	{
 		if(Module::hasAccess("Permissions", "edit")) {			
-			$permission = Permission::find($id);
+			$permission = LaPermission::find($id);
 			if(isset($permission->id)) {	
 				$module = Module::get('Permissions');
 				
@@ -188,7 +188,7 @@ class PermissionsController extends Controller
 	public function destroy($id)
 	{
 		if(Module::hasAccess("Permissions", "delete")) {
-			Permission::find($id)->delete();
+			LaPermission::find($id)->delete();
 			
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.permissions.index');
@@ -254,10 +254,10 @@ class PermissionsController extends Controller
 	public function save_permissions(Request $request, $id)
 	{
 		if(Entrust::hasRole('SUPER_ADMIN')) {
-			$permission = Permission::find($id);
+			$permission = LaPermission::find($id);
 			$module = Module::get('Permissions');
 			$module->row = $permission;
-			$roles = Role::all();
+			$roles = LaRole::all();
 			
 			foreach ($roles as $role) {
 				$permi_role_id = 'permi_role_'.$role->id;

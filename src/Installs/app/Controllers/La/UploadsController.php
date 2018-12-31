@@ -27,7 +27,7 @@ use File;
 use Validator;
 use Datatables;
 
-use App\Models\Upload;
+use App\Models\LaUpload;
 
 class UploadsController extends Controller
 {
@@ -64,7 +64,7 @@ class UploadsController extends Controller
      */
     public function get_file($hash, $name)
     {
-        $upload = Upload::where("hash", $hash)->first();
+        $upload = LaUpload::where("hash", $hash)->first();
         
         // Validate Upload Hash & Filename
         if(!isset($upload->id) || $upload->name != $name) {
@@ -173,7 +173,7 @@ class UploadsController extends Controller
 						$public = false;
 					}
 	
-					$upload = Upload::create([
+					$upload = LaUpload::create([
 						"name" => $filename,
 						"path" => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
 						"extension" => pathinfo($filename, PATHINFO_EXTENSION),
@@ -185,7 +185,7 @@ class UploadsController extends Controller
 					// apply unique random hash to file
 					while(true) {
 						$hash = strtolower(str_random(20));
-						if(!Upload::where("hash", $hash)->count()) {
+						if(!LaUpload::where("hash", $hash)->count()) {
 							$upload->hash = $hash;
 							break;
 						}
@@ -224,13 +224,13 @@ class UploadsController extends Controller
 	
 			// print_r(Auth::user()->roles);
 			if(Entrust::hasRole('SUPER_ADMIN')) {
-				$uploads = Upload::all();
+				$uploads = LaUpload::all();
 			} else {
 				if(config('laraadmin.uploads.private_uploads')) {
 					// Upload::where('user_id', 0)->first();
 					$uploads = Auth::user()->uploads;
 				} else {
-					$uploads = Upload::all();
+					$uploads = LaUpload::all();
 				}
 			}
 			$uploads2 = array();
@@ -276,7 +276,7 @@ class UploadsController extends Controller
 			$file_id = Input::get('file_id');
 			$caption = Input::get('caption');
 			
-			$upload = Upload::find($file_id);
+			$upload = LaUpload::find($file_id);
 			if(isset($upload->id)) {
 				if($upload->user_id == Auth::user()->id || Entrust::hasRole('SUPER_ADMIN')) {
 	
@@ -319,7 +319,7 @@ class UploadsController extends Controller
 			$file_id = Input::get('file_id');
 			$filename = Input::get('filename');
 			
-			$upload = Upload::find($file_id);
+			$upload = LaUpload::find($file_id);
 			if(isset($upload->id)) {
 				if($upload->user_id == Auth::user()->id || Entrust::hasRole('SUPER_ADMIN')) {
 	
@@ -367,7 +367,7 @@ class UploadsController extends Controller
 				$public = false;
 			}
 			
-			$upload = Upload::find($file_id);
+			$upload = LaUpload::find($file_id);
 			if(isset($upload->id)) {
 				if($upload->user_id == Auth::user()->id || Entrust::hasRole('SUPER_ADMIN')) {
 	
@@ -409,7 +409,7 @@ class UploadsController extends Controller
         if(Module::hasAccess("Uploads", "delete")) {
 			$file_id = Input::get('file_id');
 			
-			$upload = Upload::find($file_id);
+			$upload = LaUpload::find($file_id);
 			if(isset($upload->id)) {
 				if($upload->user_id == Auth::user()->id || Entrust::hasRole('SUPER_ADMIN')) {
 	

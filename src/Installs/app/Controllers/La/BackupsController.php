@@ -22,7 +22,7 @@ use Dwij\Laraadmin\Models\ModuleFields;
 use Dwij\Laraadmin\Helpers\LAHelper;
 use Artisan;
 
-use App\Models\Backup;
+use App\Models\LaBackup;
 
 class BackupsController extends Controller
 {
@@ -115,7 +115,7 @@ class BackupsController extends Controller
 	public function destroy($id)
 	{
 		if(Module::hasAccess("Backups", "delete")) {
-			$backup = Backup::find($id);
+			$backup = LaBackup::find($id);
 			$path = str_replace("/storage", "", $this->backup_filepath. $backup->file_name);
 
 			unlink(storage_path($path));
@@ -177,7 +177,7 @@ class BackupsController extends Controller
 	public function downloadBackup($id) {
 		$module = Module::get('Backups');
 		if(Module::hasAccess($module->id)) {
-			$backup = Backup::find($id);
+			$backup = LaBackup::find($id);
 
 			$path = str_replace("/storage", "", $this->backup_filepath.$backup->file_name);
 

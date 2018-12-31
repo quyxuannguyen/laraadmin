@@ -307,7 +307,7 @@ class LaFormMaker
                     $out .= Form::hidden($field_name, $default_val, $params);
                     
                     if($default_val != 0) {
-                        $upload = \App\Models\Upload::find($default_val);
+                        $upload = \App\Models\LaUpload::find($default_val);
                     }
                     if(isset($upload->id)) {
                         $out .= "<a class='btn btn-default btn_upload_file hide' file_type='file' selecter='" . $field_name . "'>Upload <i class='fa fa-cloud-upload'></i></a>
@@ -338,7 +338,7 @@ class LaFormMaker
                         $uploadIds = array();
                         $uploadImages = "";
                         foreach($default_val_arr as $uploadId) {
-                            $upload = \App\Models\Upload::find($uploadId);
+                            $upload = \App\Models\LaUpload::find($uploadId);
                             if(isset($upload->id)) {
                                 $uploadIds[] = $upload->id;
                                 $fileImage = "";
@@ -414,7 +414,7 @@ class LaFormMaker
                     $out .= Form::hidden($field_name, $default_val, $params);
                     
                     if($default_val != 0) {
-                        $upload = \App\Models\Upload::find($default_val);
+                        $upload = \App\Models\LaUpload::find($default_val);
                     }
                     if(isset($upload->id)) {
                         $out .= "<a class='btn btn-default btn_upload_image hide' file_type='image' selecter='" . $field_name . "'>Upload <i class='fa fa-cloud-upload'></i></a>
@@ -815,7 +815,7 @@ class LaFormMaker
                     break;
                 case 'File':
                     if($value != 0 && $value != "0") {
-                        $upload = \App\Models\Upload::find($value);
+                        $upload = \App\Models\LaUpload::find($value);
                         if(isset($upload->id)) {
                             $value = '<a class="preview" target="_blank" href="' . url("files/" . $upload->hash . DIRECTORY_SEPARATOR . $upload->name) . '">
                             <span class="fa-stack fa-lg"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-file-o fa-stack-1x fa-inverse"></i></span> ' . $upload->name . '</a>';
@@ -832,7 +832,7 @@ class LaFormMaker
                         $uploads_html = "";
                         
                         foreach($uploads as $uploadId) {
-                            $upload = \App\Models\Upload::find($uploadId);
+                            $upload = \App\Models\LaUpload::find($uploadId);
                             if(isset($upload->id)) {
                                 $uploadIds[] = $upload->id;
                                 $fileImage = "";
@@ -858,7 +858,7 @@ class LaFormMaker
                     break;
                 case 'Image':
                     if($value != 0 && $value != "0") {
-                        $upload = \App\Models\Upload::find($value);
+                        $upload = \App\Models\LaUpload::find($value);
                         if(isset($upload->id)) {
                             $value = '<a class="preview" target="_blank" href="' . url("files/" . $upload->hash . DIRECTORY_SEPARATOR . $upload->name) . '"><img src="' . url("files/" . $upload->hash . DIRECTORY_SEPARATOR . $upload->name . "?s=150") . '"></a>';
                         } else {

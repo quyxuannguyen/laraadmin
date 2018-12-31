@@ -18,7 +18,7 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 use Dwij\Laraadmin\Models\ModuleFieldTypes;
 use Dwij\Laraadmin\CodeGenerator;
-use App\Role;
+use App\LaRole;
 use Schema;
 use Dwij\Laraadmin\Models\Menu;
 
@@ -220,7 +220,7 @@ class ModuleController extends Controller
         $module->save();
         
         // Give Default Full Access to Super Admin
-        $role = Role::where("name", "SUPER_ADMIN")->first();
+        $role = LaRole::where("name", "SUPER_ADMIN")->first();
         Module::setDefaultRoleAccess($module->id, $role->id, "full");
         
         return response()->json([
@@ -276,7 +276,7 @@ class ModuleController extends Controller
         $module->save();
         
         // Give Default Full Access to Super Admin
-        $role = Role::where("name", "SUPER_ADMIN")->first();
+        $role = LaRole::where("name", "SUPER_ADMIN")->first();
         Module::setDefaultRoleAccess($module->id, $role->id, "full");
         
         return response()->json([
@@ -346,7 +346,7 @@ class ModuleController extends Controller
         
         $tables = LAHelper::getDBTables([]);
         $modules = LAHelper::getModuleNames([]);
-        $roles = Role::all();
+        $roles = LaRole::all();
         
         $now = date("Y-m-d H:i:s");
         

@@ -212,7 +212,7 @@ class OrganizationsController extends Controller
 				$col = $listing_cols[$j];
 				if($fields_popup[$col] != null && $fields_popup[$col]->field_type_str == "Image") {
 					if($data->data[$i][$j] != 0) {
-						$img = \App\Models\Upload::find($data->data[$i][$j]);
+						$img = \App\Models\LaUpload::find($data->data[$i][$j]);
 						if(isset($img->name)) {
 							$data->data[$i][$j] = '<img src="'.$img->path().'?s=50">';
 						} else {

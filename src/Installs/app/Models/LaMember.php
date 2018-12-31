@@ -7,16 +7,16 @@
  * Developer Website: http://dwijitsolutions.com
  */
 
-namespace App;
+namespace App\Models;
 
-use Zizaco\Entrust\EntrustRole;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends EntrustRole
+class LaMember extends Model
 {
     use SoftDeletes;
 	
-	protected $table = 'roles';
+	protected $table = 'employees';
 	
 	protected $hidden = [
         

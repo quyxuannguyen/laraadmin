@@ -15,8 +15,8 @@ use Dwij\Laraadmin\Models\ModuleFieldTypes;
 use Dwij\Laraadmin\Models\Menu;
 use Dwij\Laraadmin\Models\LAConfigs;
 
-use App\Role;
-use App\Permission;
+use App\LaRole;
+use App\LaPermission;
 use App\Models\Department;
 
 class DatabaseSeeder extends Seeder
@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
 		$dept->save();
 		
 		// Create Super Admin Role
-		$role = new Role;
+		$role = new LaRole;
 		$role->name = "SUPER_ADMIN";
 		$role->display_name = "Super Admin";
 		$role->description = "Full Access Role";
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
 		}
 		
 		// Create Admin Panel Permission
-		$perm = new Permission;
+		$perm = new LaPermission;
 		$perm->name = "ADMIN_PANEL";
 		$perm->display_name = "Admin Panel";
 		$perm->description = "Admin Panel Permission";

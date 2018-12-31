@@ -21,8 +21,8 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 use Zizaco\Entrust\EntrustFacade as Entrust;
 
-use App\Role;
-use App\Permission;
+use App\LaRole;
+use App\LaPermission;
 
 class RolesController extends Controller
 {
@@ -85,8 +85,8 @@ class RolesController extends Controller
 				Module::setDefaultRoleAccess($module->id, $insert_id, "readonly");
 			}
 			
-			$role = Role::find($insert_id);
-			$perm = Permission::where("name", "ADMIN_PANEL")->first();
+			$role = LaRole::find($insert_id);
+			$perm = LaPermission::where("name", "ADMIN_PANEL")->first();
 			$role->attachPermission($perm);
 			
 			return redirect()->route(config('laraadmin.adminRoute') . '.roles.index');
@@ -106,7 +106,7 @@ class RolesController extends Controller
 	{
 		if(Module::hasAccess("Roles", "view")) {
 			
-			$role = Role::find($id);
+			$role = LaRole::find($id);
 			if(isset($role->id)) {
 				$module = Module::get('Roles');
 				$module->row = $role;
@@ -144,7 +144,7 @@ class RolesController extends Controller
 	public function edit($id)
 	{
 		if(Module::hasAccess("Roles", "edit")) {			
-			$role = Role::find($id);
+			$role = LaRole::find($id);
 			if(isset($role->id)) {	
 				$module = Module::get('Roles');
 				
@@ -208,7 +208,7 @@ class RolesController extends Controller
 	public function destroy($id)
 	{
 		if(Module::hasAccess("Roles", "delete")) {
-			Role::find($id)->delete();
+			LaRole::find($id)->delete();
 			
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.roles.index');
@@ -268,7 +268,7 @@ class RolesController extends Controller
 	public function save_module_role_permissions(Request $request, $id)
 	{
 		if(Entrust::hasRole('SUPER_ADMIN')) {
-			$role = Role::find($id);
+			$role = LaRole::find($id);
 			$module = Module::get('Roles');
 			$module->row = $role;
 			

@@ -46,10 +46,10 @@ Route::group(['as'         => config('laraadmin.adminRoute').'.',
     Route::resource($adminPath.'/departments', 'DepartmentsController');
     Route::get($adminPath.'/department_dt_ajax', 'DepartmentsController@dtajax');
 
-    /* ================== Employees ================== */
-    Route::resource($adminPath.'/employees', 'EmployeesController');
-    Route::get($adminPath.'/employee_dt_ajax', 'EmployeesController@dtajax');
-    Route::post($adminPath.'/change_password/{id}', 'EmployeesController@change_password');
+    /* ================== Members ================== */
+    Route::resource($adminPath.'/members', 'MembersController');
+    Route::get($adminPath.'/member_dt_ajax', 'MembersController@dtajax');
+    Route::post($adminPath.'/change_password/{id}', 'MembersController@change_password');
 
     /* ================== Organizations ================== */
     Route::resource($adminPath.'/organizations', 'OrganizationsController');
