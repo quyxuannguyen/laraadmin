@@ -12,12 +12,12 @@
     "require": {
         "illuminate/support": "5.*",
         "laravelcollective/html": "^5.7",
-        "illuminate/container": "^5.2|^5.1",
-        "yajra/laravel-datatables-oracle": "~6.0",
+        "illuminate/container": "^5.7",
+        "yajra/laravel-datatables-oracle": "~8.13",
         "creativeorange/gravatar": "^1.0",
-        "doctrine/dbal": "~2.3",
-        "zizaco/entrust": "1.7.0",
-        "spatie/laravel-backup": "^3.0.0"
+        "doctrine/dbal": "^2.6",
+        "zizaco/entrust": "5.2.x-dev",
+        "spatie/laravel-backup": "^5.0.0"
     },
     "authors": [
         {
