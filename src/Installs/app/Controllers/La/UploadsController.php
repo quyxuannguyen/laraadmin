@@ -7,7 +7,7 @@
  * Developer Website: http://dwijitsolutions.com
  */
 
-namespace App\Http\Controllers\LA;
+namespace App\Http\Controllers\La;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;

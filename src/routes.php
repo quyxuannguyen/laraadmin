@@ -1,42 +1,37 @@
 <?php
 
-use Dwij\Laraadmin\Helpers\LAHelper;
-
-$as = "";
-if(LAHelper::laravel_ver() == 5.3 || LAHelper::laravel_ver() == 5.4) {
-    $as = config('laraadmin.adminRoute') . '.';
-}
-
 /**
  * Connect routes with ADMIN_PANEL permission(for security) and 'Dwij\Laraadmin\Controllers' namespace
  * and '/admin' url.
  */
 Route::group([
     'namespace' => 'Dwij\Laraadmin\Controllers',
-    'as' => $as,
+    'as' => config('laraadmin.adminRoute') . '.',
     'middleware' => ['web', 'auth', 'permission:ADMIN_PANEL', 'role:SUPER_ADMIN']
 ], function () {
-    
+
+    $adminPath = config('laraadmin.adminRoute');
+
     /* ================== Modules ================== */
-    Route::resource(config('laraadmin.adminRoute') . '/modules', 'ModuleController');
-    Route::resource(config('laraadmin.adminRoute') . '/module_fields', 'FieldController');
-    Route::get(config('laraadmin.adminRoute') . '/module_generate_crud/{model_id}', 'ModuleController@generate_crud');
-    Route::get(config('laraadmin.adminRoute') . '/module_generate_migr/{model_id}', 'ModuleController@generate_migr');
-    Route::get(config('laraadmin.adminRoute') . '/module_generate_update/{model_id}', 'ModuleController@generate_update');
-    Route::get(config('laraadmin.adminRoute') . '/module_generate_migr_crud/{model_id}', 'ModuleController@generate_migr_crud');
-    Route::get(config('laraadmin.adminRoute') . '/modules/{model_id}/set_view_col/{column_name}', 'ModuleController@set_view_col');
-    Route::post(config('laraadmin.adminRoute') . '/save_role_module_permissions/{id}', 'ModuleController@save_role_module_permissions');
-    Route::get(config('laraadmin.adminRoute') . '/save_module_field_sort/{model_id}', 'ModuleController@save_module_field_sort');
-    Route::post(config('laraadmin.adminRoute') . '/check_unique_val/{field_id}', 'FieldController@check_unique_val');
-    Route::get(config('laraadmin.adminRoute') . '/module_fields/{id}/delete', 'FieldController@destroy');
-    Route::post(config('laraadmin.adminRoute') . '/get_module_files/{module_id}', 'ModuleController@get_module_files');
-    Route::post(config('laraadmin.adminRoute') . '/module_update', 'ModuleController@update');
-    Route::post(config('laraadmin.adminRoute') . '/module_field_listing_show', 'FieldController@module_field_listing_show_ajax');
+    Route::resource($adminPath.'/modules', 'ModuleController');
+    Route::resource($adminPath.'/module_fields', 'FieldController');
+    Route::get($adminPath.'/module_generate_crud/{model_id}', 'ModuleController@generate_crud');
+    Route::get($adminPath.'/module_generate_migr/{model_id}', 'ModuleController@generate_migr');
+    Route::get($adminPath.'/module_generate_update/{model_id}', 'ModuleController@generate_update');
+    Route::get($adminPath.'/module_generate_migr_crud/{model_id}', 'ModuleController@generate_migr_crud');
+    Route::get($adminPath.'/modules/{model_id}/set_view_col/{column_name}', 'ModuleController@set_view_col');
+    Route::post($adminPath.'/save_role_module_permissions/{id}', 'ModuleController@save_role_module_permissions');
+    Route::get($adminPath.'/save_module_field_sort/{model_id}', 'ModuleController@save_module_field_sort');
+    Route::post($adminPath.'/check_unique_val/{field_id}', 'FieldController@check_unique_val');
+    Route::get($adminPath.'/module_fields/{id}/delete', 'FieldController@destroy');
+    Route::post($adminPath.'/get_module_files/{module_id}', 'ModuleController@get_module_files');
+    Route::post($adminPath.'/module_update', 'ModuleController@update');
+    Route::post($adminPath.'/module_field_listing_show', 'FieldController@module_field_listing_show_ajax');
     
     /* ================== Code Editor ================== */
-    Route::get(config('laraadmin.adminRoute') . '/lacodeeditor', function () {
+    Route::get($adminPath.'/lacodeeditor', function () use ($adminPath) {
         if(file_exists(resource_path("views/la/editor/index.blade.php"))) {
-            return redirect(config('laraadmin.adminRoute') . '/laeditor');
+            return redirect($adminPath.'/laeditor');
         } else {
             // show install code editor page
             return View('la.editor.install');
@@ -44,17 +39,17 @@ Route::group([
     });
     
     /* ================== Menu Editor ================== */
-    Route::resource(config('laraadmin.adminRoute') . '/la_menus', 'MenuController');
-    Route::post(config('laraadmin.adminRoute') . '/la_menus/update_hierarchy', 'MenuController@update_hierarchy');
+    Route::resource($adminPath.'/la_menus', 'MenuController');
+    Route::post($adminPath.'/la_menus/update_hierarchy', 'MenuController@update_hierarchy');
     
     /* ================== Configuration ================== */
-    Route::resource(config('laraadmin.adminRoute') . '/la_configs', '\App\Http\Controllers\LA\LAConfigController');
+    Route::resource($adminPath.'/la_configs', '\App\Http\Controllers\La\LAConfigController');
     
     Route::group([
         'middleware' => 'role'
-    ], function () {
+    ], function () use ($adminPath) {
         /*
-        Route::get(config('laraadmin.adminRoute') . '/menu', [
+        Route::get($adminPath.'/menu', [
             'as'   => 'menu',
             'uses' => 'LAController@index'
         ]);
